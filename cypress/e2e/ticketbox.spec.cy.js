@@ -11,10 +11,7 @@ describe("template spec", () => {
   });
 
   it("Enables submission after all mandatory fields are filled", () => {
-    cy.get("#first-name").type("Daniel");
-    cy.get("#last-name").type("Silva");
-    cy.get("#email").type("dfsilva@email.com");
-    cy.get("#agree").check();
+    cy.fillMandatoryFields();
     cy.percySnapshot();
   });
 
@@ -24,5 +21,18 @@ describe("template spec", () => {
     cy.get("#ticket-quantity").select("4");
     cy.get("#vip").check();
     cy.percySnapshot();
+  });
+
+  const successFullFormSubmission =
+    "Shows a success message after form submission";
+
+  it(successFullFormSubmission, () => {
+    cy.fillMandatoryFields();
+    cy.contains("Confirm Tickets").click();
+    cy.percySnapshot(successFullFormSubmission, {
+      percyCSS: `.success span {
+        display: none
+      }`,
+    });
   });
 });
